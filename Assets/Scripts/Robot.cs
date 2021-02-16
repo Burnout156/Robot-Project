@@ -15,6 +15,7 @@ public class Robot : MonoBehaviour
 
     void Update()
     {
+        float yValor = mouseVector.y;
         mouseVector.y += Input.GetAxis("Mouse X");
         mouseVector.z += Input.GetAxis("Mouse Y");
         x = Input.GetAxis("Vertical");
@@ -33,6 +34,10 @@ public class Robot : MonoBehaviour
     public void MoveWithVision()
     {   
         Vector3 move = transform.right * x + transform.forward * z;
+
+        move.y = Physics.gravity.x * 12 * Time.deltaTime; //botei gravidade para não andar para cima
+
+        move.Normalize();
 
         characterController.Move(move * Time.deltaTime * 5);     
     }
