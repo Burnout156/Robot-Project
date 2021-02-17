@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Robot : MonoBehaviour
 {
-    public CharacterController characterController;
     public Vector3 mouseVector;
     public float x, z;
     public bool isColliding; //para ver se está colidindo com o cubo
     public GameObject cubeColliding;
     public GameObject pointGrab;
     public Animator animator;
+    public Rigidbody rigid;
 
     void Start()
     {
-        characterController = GetComponent<CharacterController>();
         animator = GetComponent<Animator>();
+        rigid = GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -23,8 +23,7 @@ public class Robot : MonoBehaviour
         float yValor = mouseVector.y;
         mouseVector.y += Input.GetAxis("Mouse X");
         mouseVector.z += Input.GetAxis("Mouse Y");
-        x = Input.GetAxis("Vertical");
-        z = -Input.GetAxis("Horizontal");
+        x = Input.GetAxis("Horizontal");
 
         RotateVision();
 
@@ -35,18 +34,25 @@ public class Robot : MonoBehaviour
 
     public void RotateVision()
     {
-        transform.eulerAngles = new Vector3(0, mouseVector.y, mouseVector.z) * 10;
+        transform.eulerAngles = new Vector3(0, mouseVector.y, 0) * 10;
     }
 
     public void MoveWithVision()
-    {   
-        Vector3 move = transform.right * x + transform.forward * z;
+    {
+        if(Input.GetKey(KeyCode.A))
+        {
+            rigid.velocity = new Vector3(-10, 0, 0);
+        }
 
-        move.y = Physics.gravity.x * 12 * Time.deltaTime; //botei gravidade para não andar para cima
+        else if (Input.GetKey(KeyCode.D))
+        {
+            rigid.velocity = new Vector3(10, 0, 0);
+        }
 
-        move.Normalize();
-
-        characterController.Move(move * Time.deltaTime * 5);     
+        else
+        {
+            rigid.velocity = new Vector3(0, 0, 0);
+        }
     }
 
     public void CatchCube()
@@ -74,7 +80,7 @@ public class Robot : MonoBehaviour
             Debug.Log("Soltou");
         }
 
-        else if(Input.GetKeyUp(KeyCode.Mouse0))
+        else if(Input.GetKeyUp(KeyCode.Mouse0) || transform.GetComponentInChildren<Cube>())
         {
             animator.SetBool("catch", false);
         }
