@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class Platform : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public List<GameObject> blocks;
+
+    public void InsertBlock(GameObject block)
     {
-        
+        if(!blocks.Contains(block))
+        {
+            blocks.Add(block);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RemoveBlock(GameObject block)
     {
-        
+        if (blocks.Contains(block))
+        {
+            blocks.Remove(block);
+        }
     }
 }

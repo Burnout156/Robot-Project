@@ -53,9 +53,12 @@ public class Robot : MonoBehaviour
     {
         if(Input.GetKeyUp(KeyCode.Mouse0) && isColliding && !cubeColliding.transform.IsChildOf(gameObject.transform))
         {
+            //cubeColliding.GetComponent<Cube>().isPlatform = false;
             animator.SetBool("catch", true);
+            cubeColliding.GetComponent<Rigidbody>().useGravity = false;
             cubeColliding.transform.position = pointGrab.transform.position;
             cubeColliding.transform.parent = gameObject.transform;
+            cubeColliding.GetComponent<Cube>().platform.RemoveBlock(cubeColliding);
             Debug.Log("Pegou");
         }
 
@@ -64,7 +67,8 @@ public class Robot : MonoBehaviour
             animator.SetBool("catch", false);
             isColliding = false;
             cubeColliding.transform.parent = null;
-            cubeColliding.AddComponent<Rigidbody>();
+            cubeColliding.GetComponent<Rigidbody>().useGravity = true;
+            cubeColliding.GetComponent<Rigidbody>().isKinematic = false;
             Rigidbody rigid = cubeColliding.GetComponent<Rigidbody>();
             cubeColliding.transform.rotation = Quaternion.Euler(0, 0, 0);
             rigid.constraints = RigidbodyConstraints.FreezeRotation;
