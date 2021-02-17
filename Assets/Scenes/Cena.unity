@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Robot
       objectReference: {fileID: 0}
+    - target: {fileID: 1144198143900116489, guid: 95598bc81d6bb1045a16bfc363515200, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: f11d62566e0a2da41a78761b11d76237, type: 2}
     - target: {fileID: 6035971824060863533, guid: 95598bc81d6bb1045a16bfc363515200, type: 3}
       propertyPath: m_Enabled
       value: 1

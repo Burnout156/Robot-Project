@@ -10,10 +10,12 @@ public class Robot : MonoBehaviour
     public bool isColliding; //para ver se está colidindo com o cubo
     public GameObject cubeColliding;
     public GameObject pointGrab;
+    public Animator animator;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -49,21 +51,33 @@ public class Robot : MonoBehaviour
 
     public void CatchCube()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0) && isColliding && !cubeColliding.transform.IsChildOf(gameObject.transform))
+        if(Input.GetKeyUp(KeyCode.Mouse0) && isColliding && !cubeColliding.transform.IsChildOf(gameObject.transform))
         {
+            animator.SetBool("catch", true);
             cubeColliding.transform.position = pointGrab.transform.position;
             cubeColliding.transform.parent = gameObject.transform;
             Debug.Log("Pegou");
         }
 
-        else if(Input.GetKeyDown(KeyCode.Mouse0) && isColliding && cubeColliding.transform.IsChildOf(gameObject.transform))
+        else if(Input.GetKeyUp(KeyCode.Mouse0) && isColliding && cubeColliding.transform.IsChildOf(gameObject.transform))
         {
+            animator.SetBool("catch", false);
             cubeColliding.transform.parent = null;
             cubeColliding.AddComponent<Rigidbody>();
             Rigidbody rigid = cubeColliding.GetComponent<Rigidbody>();
             cubeColliding.transform.rotation = Quaternion.Euler(0, 0, 0);
             rigid.constraints = RigidbodyConstraints.FreezeRotation;
             Debug.Log("Soltou");
+        }
+
+        else if(Input.GetKeyUp(KeyCode.Mouse0))
+        {
+            animator.SetBool("catch", false);
+        }
+
+        else if(Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            animator.SetBool("catch", true);
         }
     }
 

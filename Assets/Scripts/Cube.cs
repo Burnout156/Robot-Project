@@ -6,7 +6,6 @@ public class Cube : MonoBehaviour
 {
     public GameObject particle;
 
-    // Start is called before the first frame update
     void Start()
     {
         particle = GetComponentInChildren<ParticleSystem>().gameObject;
@@ -18,6 +17,9 @@ public class Cube : MonoBehaviour
         if(collision.gameObject.tag.Equals("Floor"))
         {
             particle.SetActive(true);
+            particle.GetComponent<ParticleSystem>().Simulate(0.0f, true, true);
+            particle.GetComponent<ParticleSystem>().Play();
+            Destroy(GetComponent<Rigidbody>());
         }
     }
 }
