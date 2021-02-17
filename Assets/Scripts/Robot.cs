@@ -7,6 +7,9 @@ public class Robot : MonoBehaviour
     public CharacterController characterController;
     public Vector3 mouseVector;
     public float x, z;
+    public bool isColliding; //para ver se está colidindo com o cubo
+    public GameObject cubeColliding;
+    public GameObject pointGrab;
 
     void Start()
     {
@@ -24,6 +27,8 @@ public class Robot : MonoBehaviour
         RotateVision();
 
         MoveWithVision();
+
+        CatchCube();
     }
 
     public void RotateVision()
@@ -40,5 +45,43 @@ public class Robot : MonoBehaviour
         move.Normalize();
 
         characterController.Move(move * Time.deltaTime * 5);     
+    }
+
+    public void CatchCube()
+    {
+        if(Input.GetKeyDown(KeyCode.Mouse0) && isColliding && !cubeColliding.transform.IsChildOf(gameObject.transform))
+        {
+            cubeColliding.transform.position = pointGrab.transform.position;
+            cubeColliding.transform.parent = gameObject.transform;
+            Debug.Log("Pegou");
+        }
+
+        else if(Input.GetKeyDown(KeyCode.Mouse0) && isColliding && cubeColliding.transform.IsChildOf(gameObject.transform))
+        {
+            cubeColliding.transform.parent = null;
+            cubeColliding.AddComponent<Rigidbody>();
+            Rigidbody rigid = cubeColliding.GetComponent<Rigidbody>();
+            cubeColliding.transform.rotation = Quaternion.Euler(0, 0, 0);
+            rigid.constraints = RigidbodyConstraints.FreezeRotation;
+            Debug.Log("Soltou");
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag.Equals("Cube"))
+        {
+            isColliding = true;
+            cubeColliding = collision.gameObject;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag.Equals("Cube"))
+        {
+            isColliding = false;
+            cubeColliding = null;
+        }
     }
 }
