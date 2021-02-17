@@ -53,7 +53,6 @@ public class Robot : MonoBehaviour
     {
         if(Input.GetKeyUp(KeyCode.Mouse0) && isColliding && !cubeColliding.transform.IsChildOf(gameObject.transform))
         {
-            //cubeColliding.GetComponent<Cube>().isPlatform = false;
             animator.SetBool("catch", true);
             cubeColliding.GetComponent<Rigidbody>().useGravity = false;
             cubeColliding.transform.position = pointGrab.transform.position;
