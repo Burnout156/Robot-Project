@@ -60,7 +60,13 @@ public class Robot : MonoBehaviour
         if(Input.GetKeyUp(KeyCode.Mouse0) && isColliding && !cubeColliding.transform.IsChildOf(gameObject.transform))
         {
             animator.SetBool("catch", true);
-            cubeColliding.GetComponent<Rigidbody>().useGravity = false;
+            //cubeColliding.GetComponent<Rigidbody>().useGravity = false;
+
+            if(cubeColliding.GetComponent<Cube>().isPlatform)
+            {
+                Destroy(cubeColliding.GetComponent<Rigidbody>());
+            }
+
             cubeColliding.transform.position = pointGrab.transform.position;
             cubeColliding.transform.parent = gameObject.transform;
             cubeColliding.GetComponent<Cube>().platform.RemoveBlock(cubeColliding);
@@ -72,6 +78,7 @@ public class Robot : MonoBehaviour
             animator.SetBool("catch", false);
             isColliding = false;
             cubeColliding.transform.parent = null;
+            cubeColliding.AddComponent<Rigidbody>();
             cubeColliding.GetComponent<Rigidbody>().useGravity = true;
             cubeColliding.GetComponent<Rigidbody>().isKinematic = false;
             Rigidbody rigid = cubeColliding.GetComponent<Rigidbody>();

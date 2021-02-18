@@ -19,10 +19,10 @@ public class Cube : MonoBehaviour
     {
         if(collision.gameObject.tag.Equals("Floor"))
         {
-            GetComponent<Rigidbody>().useGravity = false;
-            GetComponent<Rigidbody>().isKinematic = true;
+            //GetComponent<Rigidbody>().useGravity = false;
+            //GetComponent<Rigidbody>().isKinematic = true;
             //particle.SetActive(true);
-            //Destroy(GetComponent<Rigidbody>());
+            Destroy(GetComponent<Rigidbody>());
         }
 
         else if(collision.gameObject.tag.Equals("Platform"))
@@ -44,8 +44,9 @@ public class Cube : MonoBehaviour
         if (collision.gameObject.tag.Equals("Platform") && !isPlatform)
         {
             platform.RemoveBlock(this.gameObject);
-            GetComponent<Rigidbody>().useGravity = false;
-            GetComponent<Rigidbody>().isKinematic = true;
+            Destroy(GetComponent<Rigidbody>());
+            //GetComponent<Rigidbody>().useGravity = false;
+            //GetComponent<Rigidbody>().isKinematic = true;
             Debug.Log(gameObject.name + " not colliding platform");
         }
     }
