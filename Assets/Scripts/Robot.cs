@@ -41,12 +41,12 @@ public class Robot : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.A))
         {
-            rigid.velocity = new Vector3(-10, 0, 0);
+            rigid.velocity = new Vector3(-2, 0, 0);
         }
 
         else if (Input.GetKey(KeyCode.D))
         {
-            rigid.velocity = new Vector3(10, 0, 0);
+            rigid.velocity = new Vector3(2, 0, 0);
         }
 
         else
